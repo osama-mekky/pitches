@@ -96,14 +96,14 @@
 							<thead>
 								<tr class="table-head-row">
 									<th>Name</th>
-									<th class="product-price">Status</th>
+									<th>Status</th>
 									<th>Day</th>
 									<th>Pitche</th>
 									
 									
-									<th class="product-image">From Hour</th>
-									<th class="product-name">To Hour</th>
-									<th class="product-price">Timing</th>
+									<th >From Hour</th>
+									<th >To Hour</th>
+									<th >Timing</th>
 									
 									
 									
@@ -113,11 +113,14 @@
                         	{% if request.user == oph.user %}
 							<tbody class="order-details-body">
 								<tr>
-									<td>{{oph.user}}</td>
+									<td data-title="Full_Name">{{oph.user}} {{oph.user.last_name}}</td>
 									{% if oph.from_hour <= time %}
-                            		<td><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-warning">Finished</a></td>
+                            		<td data-title="Stauts"><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-warning">Finished</a></td>
+									{% elif oph.from_hour.date == today %}
+									<td data-title="Stauts"><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-primary">Active</a></td>
+
 									{% else %}
-									<td><a style="width: 120px;"  class="btn btn-danger" href="{% url 'delate-booking' oph.id %}" data-toggle="modal" data-target="#staticBackdrop" >Delate </a></td>
+									<td data-title="Stauts"><a style="width: 120px;"  class="btn btn-danger" href="{% url 'delate-booking' oph.id %}" data-toggle="modal" data-target="#staticBackdrop" >Delate </a><br><strong>تنويه لا يمكن الغاء الحجز قبل 24 ساعة من بدايته</strong></td>
 
 									<!-- Modal Delate  -->
 									<div style="width: 400px;" class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -130,7 +133,8 @@
 											  </button>
 											</div>
 											<div class="modal-body">
-											  <label for="inputQty">Are You Sure to Dealte</label>
+											  <label>Are You Sure to Dealte</label><br>
+											  
 												  
 											</div>
 											<div class="modal-footer">
@@ -140,31 +144,32 @@
 										  </div>
 										</div>
 									  </div>
-
+									  
 
 
 									{% endif %}
-									<td>{{oph.from_hour|date}}</td>
-									<td>{{oph.pitche}}</td>
-									<td>{{oph.from_hour|date:'h:i A'}}</td>
-									<td>{{oph.to_hour|date:'h:i A' }}</td>
-									<td>{{oph.timing}}</td>
+									<td data-title="Day">{{oph.from_hour|date}}</td>
+									<td data-title="pitche">{{oph.pitche}}</td>
+									<td data-title="from_hour">{{oph.from_hour|date:'h:i A'}}</td>
+									<td data-title="to_hour">{{oph.to_hour|date:'h:i A' }}</td>
+									<td data-title="timing">{{oph.timing}}</td>
 									
 								</tr>
+								
 								{% elif oph.pitche.manager in manager %}
                              	{% if oph.pitche.manager.user == request.user %}
                               <tr>
-                                <td>{{oph.user.first_name}} {{oph.user.last_name}}</td>
+                                <td data-title="Full_Name">{{oph.user.first_name}} {{oph.user.last_name}}</td>
 								{% if oph.from_hour <= time %}
-                                  <td><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-warning">Finished</a></td>
+                                  <td data-title="Stauts"><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-warning">Finished</a></td>
                                 {% else %}
-                                  <td><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-primary">Active</a></td>
+                                  <td data-title="Stauts"><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-primary">Active</a></td>
                                 {% endif %}
-                                <td>{{oph.from_hour|date}}</td>
-                                <td>{{oph.pitche}}</td>
-                                <td>{{oph.from_hour|date:'h:i A'}}</td>
-                                <td>{{oph.to_hour|date:'h:i A' }}</td>
-                                <td>{{oph.timing}}</td>
+                                <td data-title="Day">{{oph.from_hour|date}}</td>
+                                <td data-title="pitche">{{oph.pitche}}</td>
+                                <td data-title="from_hour">{{oph.from_hour|date:'h:i A'}}</td>
+                                <td data-title="to_hour">{{oph.to_hour|date:'h:i A' }}</td>
+                                <td data-title="timing">{{oph.timing}}</td>
                                 
                                 </tr>
 								

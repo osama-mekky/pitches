@@ -79,19 +79,12 @@ def pitche_page(request,id):
 def delateBooking(request,id):
      booking = OpeningHours.objects.get(id=id)
      if booking.user.id == request.user.id:
-        booking.delete()
+            booking.delete()  
     #  if request.method == 'POST':
     #     booking.delete()
      return redirect('profile')
 
-# def check_activate(request):
-#      start = OpeningHours.objects.all()
-#      for i in start :
-#           duration= i.created.time() +datetime.timedelta(minutes=2)
-#           active = timezone.now() >= duration
-#           print(timezone.now())
-#           if active :
-#                return render(request,'accounts/profile.html',{'active':active}) 
+
 
 
 
@@ -99,37 +92,9 @@ def delateBooking(request,id):
 
 
    
-               
-    #  duration = start.from_hour - datetime.timedelta(hours=6)
-    #  active = timezone.now() >= duration
-    #  if active :
-    #       return render(request,'accounts/profile.html',{'active':active}) 
+    
 
 
 
 
 
-# add_date = RestaurantForm(request.POST)
-#             pit_id = Pitche.objects.get(id =id )
-#             from_hour=add_date['from_hour'].value()
-#             to_hour=add_date['to_hour'].value()
-#             made_on=add_date['made_on'].value()
-#             period = add_date['period'].value()
-#             unieck = request.POST['pit']
-
-#             in_range = (from_hour,to_hour)
-#             #filter = OpeningHours.objects.filter(made_on=made_on,period = period).filter(Q(from_hour__range=in_range) | Q(to_hour__range=in_range)).exists()
-#             x= Pitche.objects.filter(id=unieck)
-#             if OpeningHours.objects.filter(made_on=made_on,period = period).filter(Q(from_hour__range=in_range) | Q(to_hour__range=in_range)).exists():
-#                 messages.error(request,"Not Allowed")
-#             else:     
-#                 #add_date = RestaurantForm(request.POST)
-#                 if add_date.is_valid():
-#                     info =add_date.save(commit=False)
-#                     login_user = User.objects.get(username = request.user.username)
-#                     info.user = login_user
-#                     info.pitche = pit_id
-#                     info.save()
-#                     messages.success(request,"Booking Successful")
-#                 else:
-#                     messages.error(request,"this time is booked befor") 

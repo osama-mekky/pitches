@@ -8,6 +8,10 @@
 	    z-index: 999;
 	    color: #fff;
 	}
+	/* mekky */
+	.forget_pass{
+		margin-left: 300px;
+	}
 	
 	
 
@@ -607,6 +611,36 @@
 		z-index: 999;
 		
 	}
+	/* mekky */
+	table{
+		width: 350px;
+	}
+	table thead tr{
+		display: none;
+	}
+	table tr{
+		display: block;;
+	}
+	table th, table td{
+		padding: .5em;
+	}
+	table td{
+		
+		text-align: right;
+		
+		display: block;
+		font-size: 1em;
+
+	}
+	table td::before{
+		content: attr(data-title) '  :   ';
+		float: left;
+	}
+	table td[data-title="Full_Name"]{
+		background-color: rgb(210, 210, 210);
+	}
+	
+	
 	
 }
 /* Wide Mobile Layout: 480px. */

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.utils import timezone
+import datetime
 
 import datetime 
 # Create your models here.
@@ -57,7 +58,13 @@ class OpeningHours(models.Model):
 
 
     def __str__(self):
-        return f"{self.from_hour.time()}- {self.pitche}-to {self.to_hour.time()}"
+        if self.from_hour.date() == datetime.datetime.today().date():
+            return f"{self.from_hour.time()}- {self.pitche}-to {self.to_hour.time()}--- اليوم"
+        elif self.from_hour <=timezone.now() :
+            return f"{self.from_hour.time()}- {self.pitche}-to {self.to_hour.time()} --- انتهت "
+        else :
+            return f"{self.from_hour.time()}- {self.pitche}-to {self.to_hour.time()} --- {self.from_hour.date()}"
+
     class Meta :
         ordering =['-from_hour']
   

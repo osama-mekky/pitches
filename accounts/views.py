@@ -98,8 +98,7 @@ def profile(request):
     openingHours = OpeningHours.objects.all()
     manager = Manager.objects.all()
     time = timezone.now()
-    # for i in openingHours :
-    #       active= i.created +datetime.timedelta(minutes=2)
+    today = datetime.datetime.today().date()
           
 
           
@@ -133,6 +132,7 @@ def profile(request):
                 'openingHours':openingHours,
                 'time':time,
                 'manager':manager,
+                'today':today,
                 
                 
                 

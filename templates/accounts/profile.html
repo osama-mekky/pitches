@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}profile{% endblock %}
+{% block content %}
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Profile</p>
+						<h1>{{fname}} {{lname}}</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- check out section -->
+	<div class="checkout-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="checkout-accordion-wrap">
+						<div class="accordion" id="accordionExample">
+						  <div class="card single-accordion">
+						    <div class="card-header" id="headingOne">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						          Personal Information
+						        </button>
+						      </h5>
+						    </div>
+
+						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="billing-address-form">
+						        	<form method="POST">
+										{% csrf_token %}
+
+						        		<p><input type="text" value="{{fname}}" name="fname" placeholder="First Name"></p>
+										<p><input type="text" value="{{lname}}" name="lname" placeholder="Last Name"></p>
+										<p><input type="text" value="{{age}}" name="age" placeholder="Age"></p>
+										<p><input type="tel"  value="{{phone}}" name="phone_number" placeholder="Phone"></p>
+						        		<p><input type="email" value="{{email}}" name="email" placeholder="Email"></p>
+						        		<p><input type="text" value="{{user}}" name="username" placeholder="Username"></p>
+										<p><input type="password" value="{{pass}}" name="password" placeholder="password"></p>
+						        		
+										<button style="border: none; background: none;" name="btnsave" type="submit"><a class="boxed-btn">Save Changes</a></button>
+						        	</form>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						  <!-- <div class="card single-accordion">
+						    <div class="card-header" id="headingTwo">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+						          Shipping Address
+						        </button>
+						      </h5>
+						    </div>
+						    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="shipping-address-form">
+						        	<p>Your shipping address form is here.</p>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						  <div class="card single-accordion">
+						    <div class="card-header" id="headingThree">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+						          Card Details
+						        </button>
+						      </h5>
+						    </div>
+						    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="card-details">
+						        	<p>Your card details goes here.</p>
+						        </div>
+						      </div>
+						    </div>
+						  </div> -->
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="order-details-wrap">
+						<table class="order-details">
+							<thead>
+								<tr class="table-head-row">
+									<th>Name</th>
+									<th class="product-price">Status</th>
+									<th>Day</th>
+									<th>Pitche</th>
+									
+									
+									<th class="product-image">From Hour</th>
+									<th class="product-name">To Hour</th>
+									<th class="product-price">Timing</th>
+									
+									
+									
+								</tr>
+							</thead>
+							{% for oph in openingHours  %}
+                        	{% if request.user == oph.user %}
+							<tbody class="order-details-body">
+								<tr>
+									<td>{{oph.user}}</td>
+									{% if oph.from_hour <= time %}
+                            		<td><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-warning">Finished</a></td>
+									{% else %}
+									<td><a style="width: 120px;"  class="btn btn-danger" href="{% url 'delate-booking' oph.id %}" data-toggle="modal" data-target="#staticBackdrop" >Delate </a></td>
+
+									<!-- Modal Delate  -->
+									<div style="width: 400px;" class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+										  <div class="modal-content">
+											<div class="modal-header">
+											  <h5 class="modal-title" id="staticBackdropLabel">Delate</h5>
+											  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											  </button>
+											</div>
+											<div class="modal-body">
+											  <label for="inputQty">Are You Sure to Dealte</label>
+												  
+											</div>
+											<div class="modal-footer">
+											  <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnclose">Close</button>
+											 <a href="{% url 'delate-booking' oph.id %}"><button  class="btn btn-danger" >Delate</button></a>
+											</div>
+										  </div>
+										</div>
+									  </div>
+
+
+
+									{% endif %}
+									<td>{{oph.from_hour|date}}</td>
+									<td>{{oph.pitche}}</td>
+									<td>{{oph.from_hour|date:'h:i A'}}</td>
+									<td>{{oph.to_hour|date:'h:i A' }}</td>
+									<td>{{oph.timing}}</td>
+									
+								</tr>
+								{% elif oph.pitche.manager in manager %}
+                             	{% if oph.pitche.manager.user == request.user %}
+                              <tr>
+                                <td>{{oph.user.first_name}} {{oph.user.last_name}}</td>
+								{% if oph.from_hour <= time %}
+                                  <td><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-warning">Finished</a></td>
+                                {% else %}
+                                  <td><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-primary">Active</a></td>
+                                {% endif %}
+                                <td>{{oph.from_hour|date}}</td>
+                                <td>{{oph.pitche}}</td>
+                                <td>{{oph.from_hour|date:'h:i A'}}</td>
+                                <td>{{oph.to_hour|date:'h:i A' }}</td>
+                                <td>{{oph.timing}}</td>
+                                
+                                </tr>
+								
+							</tbody>
+							{% endif %}
+							{% endif %}
+							{% endfor %}
+							
+							
+						</table>
+						<!-- <a href="#" class="boxed-btn">Place Order</a> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end check out section -->
+
+
+
+
+
+
+	
+	
+	
+	
+
+{% endblock %}

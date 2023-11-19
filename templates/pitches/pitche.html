@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pitche{% endblock %}
+{% block content %}
+
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>See more Details</p>
+                    <h1>{{pit.Name}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="single-product mt-150 mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="single-product-img">
+                    <h2 style="text-align: center;" >
+                        {% if messages %}
+                        {% for mess in messages %}
+                        
+                        {% if 'danger' == mess.tags%}
+                        <h3 style="color: red; text-align: center;" >{{mess}}</h3>
+                        {% else %}
+                        <h3 style="color: rgb(15, 124, 15); text-align: center;" >{{mess}}</h3>
+
+
+                        {% endif %}
+      
+      
+                        {% endfor %}
+                      {% endif %}
+                    </h2>
+                    <img src="{{pit.photo.url}}" alt="">
+                    <br>
+                    <br>
+                    
+                    <a href="{{pit.location}}" target="_blank" class="cart-btn"><i class="fas fa-location-arrow"></i>Location</a>
+                    
+                </div>
+                
+            </div>
+            <div class="col-md-7">
+                <div class="single-product-content">
+                    <h2> ملعب {{pit.Name}}</h2>
+                    <p class="single-product-pricing"> المنطقة:  {{pit.city}}</p>
+                    <p class="single-product-pricing"><span>العنوان : {{pit.address}}</span>{{pit.price}} EGY <span>سعر الساعة </span> </p>
+
+                    
+
+                    <div class="single-product-form">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% if request.user.is_authenticated  %}     
+                            {{form.as_p}}
+                            {% endif %}
+                            <br>
+                            {% if request.user.is_authenticated  %}  
+                            <button style="border: none; background: none;" type="submit" ><a class="cart-btn"><i class="fas fa-shopping-cart"></i> Booking</a></button>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="cart-btn"><i class="fas fa-user"></i>Login</a>
+                            {% endif %}
+                        </form>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

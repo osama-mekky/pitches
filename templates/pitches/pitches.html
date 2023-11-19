@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Pitches{% endblock %}
+{% block content %}
+
+	
+
+
+	
+	
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Booking Now</p>
+						<h1>Pitches</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- products -->
+	<div class="product-section mt-150 mb-150">
+		<div class="container">
+
+			<div class="row">
+                <div class="col-md-12">
+                    <div class="product-filters">
+                        <ul>
+                            <a href="{% url 'pitches' %}"><li class="active" data-filter="*">All</li></a>
+                            {% for city in citys %}
+							<a href="{% url 'pitches'%}?q={{city.name}}"><li data-filter=".strawberry">{{city.name}}</li></a>
+							{% endfor %}
+						</ul>
+                    </div>
+                </div>
+            </div>
+
+			<div class="row product-lists">
+				{% for pit in paged_pitches %}
+				<div class="col-lg-4 col-md-6 text-center strawberry">
+					<div class="single-product-item">
+						<div class="product-image">
+							<a href="{% url 'pitche' pit.id %}"><img src="{{pit.photo.url}}" alt=""></a>
+							
+						</div>
+						<h3>{{pit.Name}}</h3>
+						<a href="{% url 'pitche' pit.id %}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Booking</a>
+						<!-- <p class="product-price"><span>Per Kg</span> 85$ </p> -->
+						
+					</div>
+				</div>
+				{% endfor %}
+				
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="pagination-wrap">
+						{% if paged_pitches.has_other_pages %}
+						<ul>
+							{% if paged_pitches.has_previous %}
+							<li><a href="?page={{paged_pitches.previous_page_number}}">Prev</a></li>
+							{% else %}
+							<li class="disabled"><a>Prev</a></li>
+							{% endif %}
+
+							{% for i in paged_pitches.paginator.page_range %}
+							{% if paged_pitches.number == i %}
+							<li class="active"><a> {{i}} </a></li>
+							{% else %}
+							<li><a href="?page={{i}}"> {{i}} </a></li>
+							{% endif %}
+							{% endfor %}
+
+							{% if paged_pitches.has_next %}
+							<li><a href="?page={{paged_pitches.next_page_number}}">Next</a></li>
+							{% else %}
+							<li class="disabled"><a>Next</a>
+							</li>
+							{% endif  %}
+						</ul>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end products -->
+
+
+
+
+	
+	
+	
+{% endblock %}

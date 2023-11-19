@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+{% block content %}
+  
+     
+    <div class="fh5co-hero">
+        <div class="fh5co-"></div>
+        <div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(../static/images/logo.jpg);">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="profile_info">
+                <h1 style="text-align: center; color:green">البيانات الشخصية </h1>
+                    <label for="inputFirstName">First Name</label>
+                    <input type="text" value="{{fname}}" class="form-control" name="fname" id="inputFirstName" required>
+                    <label for="inputLastName">Last Name</label>
+                    <input type="text" value="{{lname}}" class="form-control" name="lname" id="inputLastName" required>
+                    <label class="form-label" for="firstName">Age</label>  
+                    <input type="text" value="{{age}}" name="age" class="form-control form-control-lg" required />
+                    <label class="form-label" for="lastName">PhoneNumber</label>  
+                    <input type="text" value="{{phone}}" name="phone_number" class="form-control form-control-lg" required />
+                    <label class="form-label" for="firstName">Username</label>  
+                    <input type="text" value="{{user}}" name="username" readonly class="form-control form-control-lg" required />
+                    <label class="form-label" for="lastName">Email</label>  
+                    <input type="email"value="{{email}}" name="email" readonly class="form-control form-control-lg" required />
+                    <label class="form-label" for="password">Password</label>  
+                    <input type="password" value="{{pass}}" name="password" class="form-control form-control-lg" required />
+
+                    <button style="margin: 10px;" type="submit" name="btnsave" class="btn btn-warning">Save Changes</button>
+
+
+          </form>  
+            </div>
+          </div>
+          
+
+            <div class="profile_booking">
+                <h1 style="text-align: center; color:green">حجوزاتي</h1>
+
+                <div>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            
+                            <th scope="col">Name</th>
+                            <th scope="col">Day</th>
+                            <th scope="col">Pitche</th>
+                            <th scope="col">From_Hour</th>
+                            <th scope="col">To_Hour</th>
+                            <th scope="col">Timing</th>
+                            <th scope="col">Confirm</th>
+                            <th scope="col">id</th>
+                          </tr>
+                        </thead>
+                        {% for oph in openingHours  %}
+                        {% if request.user == oph.user %}
+                        <tbody>
+                          <tr>
+                            <td>{{oph.user}}</td>
+                            <td>{{oph.from_hour|date}}</td>
+                            <td>{{oph.pitche}}</td>
+                            <td>{{oph.from_hour|date:'h:i A'}}</td>
+                            <td>{{oph.to_hour|date:'h:i A' }}</td>
+                            <td>{{oph.timing}}</td>
+                            {% if oph.from_hour <= time %}
+                            <td><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-warning">Finished</a></td>
+                            {% else %}
+                            <td><a style="width: 120px;"  class="btn btn-danger" href="{% url 'delate-booking' oph.id %}">Delate</a></td>
+                            {% endif %}
+                            <td>{{oph.id}}</td>
+                          </tr>
+                          {% elif oph.pitche.manager in manager %}
+                              {% if oph.pitche.manager.user == request.user %}
+                              <tr>
+                                <td>{{oph.user.first_name}} {{oph.user.last_name}}</td>
+                                <td>{{oph.from_hour|date}}</td>
+                                <td>{{oph.pitche}}</td>
+                                <td>{{oph.from_hour|date:'h:i A'}}</td>
+                                <td>{{oph.to_hour|date:'h:i A' }}</td>
+                                <td>{{oph.timing}}</td>
+                                {% if oph.from_hour <= time %}
+                                  <td><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-warning">Finished</a></td>
+                                {% else %}
+                                  <td><a  style="width: 120px; cursor:none;pointer-events:none" class="btn btn-primary">Active</a></td>
+                                {% endif %}
+                                </tr>
+                        </tbody>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                      </table>
+                
+
+            </div>  
+            
+        </div>
+
+
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Select Quantity</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="inputQty">Quantity:</label>
+            <input type="text" class="form-control" name="qty" value="1" id="inputQty" placeholder="" required>
+            <input type="hidden" name="pro_id" value="{{pro.id}}">
+            <input type="hidden" name="price" value="{{pro.price}}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnclose">Close</button>
+        <button onclick="addtocart()" class="btn btn-warning" >Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

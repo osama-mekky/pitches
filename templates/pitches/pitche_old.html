@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pitches{% endblock %}
+{% block content %}
+
+
+<div class="fh5co-hero">
+    <div class="fh5co-"></div>
+    <div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(../static/images/logo.jpg);">
+       
+    </div>
+    <div class="info">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% if request.user.is_authenticated  %}     
+            {{form.as_p}}
+            <button  type="submit" class="btn btn-primary">حجز</button>
+            {% else %}
+            <div style="font-size: 28px; margin-top:120px; padding:20px">
+            <span>يجب عليك تسجيل الدخول</span><br>
+            <button class="btn btn-warning" type="button"><a href="{% url 'login' %}">Login</a></button>
+            </div>
+            {% endif %}    
+
+        </div>
+
+    <div class="pitche">
+        
+        <h1>تفاصيل الحجز</h1>
+
+        <div class="fh5co-listing" style="margin-top: 40px; margin-left:80px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 fh5co-item-wrap">
+                        <a class="fh5co-listing-item">
+                            <img src="{{pit.photo.url}}" class="img-responsive">
+                            <div class="fh5co-listing-copy">
+                                
+                                
+                            
+                            </div>
+                        </a>
+                        <br>
+                        <h3>المنطقة: {{pit.city}}</h3>
+                        <h3>العنوان: {{pit.address}}</h3>
+                        <h3>سعر الساعة :{{pit.price}}</h3>
+                        <button type="submit" class="btn btn-warning"><a  href="{{pit.location}}"; target="_blank";>Location</a></button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    
+    </div>
+    </form>
+
+</div>
+
+
+{% endblock %}
